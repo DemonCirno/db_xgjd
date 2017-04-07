@@ -9,8 +9,6 @@ public class Member {
 
     private String memberclass;
 
-    private Integer memebrstuid;
-
     private String subjects;
 
     private String contactway;
@@ -45,14 +43,6 @@ public class Member {
 
     public void setMemberclass(String memberclass) {
         this.memberclass = memberclass == null ? null : memberclass.trim();
-    }
-
-    public Integer getMemebrstuid() {
-        return memebrstuid;
-    }
-
-    public void setMemebrstuid(Integer memebrstuid) {
-        this.memebrstuid = memebrstuid;
     }
 
     public String getSubjects() {

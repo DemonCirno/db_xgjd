@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title></title>
+	<script src="js/ajax.js"></script>
+	<script src="js/jquery-3.2.0.min.js"></script>
+<style type="text/css">
+	#wrap{
+		position:relative;
+		width:995px;
+		height:540px;
+		margin:15px auto;
+		background: 
+	}
+	#wrap h2{
+		writing-mode: vertical-lr;
+		color: white;
+		font-size: 40px;
+		font-family: 'microsoft yahei';
+		letter-spacing: 10px;
+	}
+	.box{
+		position: absolute;
+		left: 42%;
+		top:0;
+		width: 100%;
+		height:100%;
+		float: left;
+		font-family: 'microsoft yahei';
+		color: #fff;
+	}
+	.box  input[type="text"],.box  select{
+		border-radius: 10px;
+		width: 200px;
+		height: 18px;
+	}
+	.box  input[type="submit"]{
+		border-radius: 10px;
+		width: 200px;
+		height: 20px;
+		background:rgba(0,127,165,1);
+		color: #fff;
+		font-weight: bold;
+		font-family: 'microsoft yahei';
+	}
+	.box  input[type="radio"]{
+		color: #fff;
+	}
+	#onumwarning{
+			display: none;
+		height: 25px;
+		width: 150px;
+		color:red;
+
+	}
+	#id{
+		height: 30px;
+	}
+</style>
+		
+</head>
+<body>
+<div id="wrap">
+<h2>加入我们<hr></h2>
+<form method="post" class="box" id="form1">
+
+<label><p>姓名</p><input type="text" name="membername"  placeholder="  君の名は"></label>
+<label><p>性别</p>
+<input type="radio" name="membersex" value="false">男
+<input type="radio" name="membersex" value="true">女
+</label>
+<label><p>学号</p><input type="text" name="memberid"  placeholder="  输入8位学号" id="onum" maxlength="8"></label>
+<div id="onumwarning">用户已报名</div>
+<label><p>手机号码</p><input type="text" name="contactway"  placeholder="  输入11位手机号码"></label>
+<label>
+<p>专业班级</p>
+<select name="memberclass">
+<option value="16信管1班">16级信管1班</option>
+<option value="16信管2班">16级信管2班</option>
+<option value="16电商班">16级电商班</option>
+<option value="16档案班">16级档案班</option>
+<option value="16编出班">16级编出班</option>
+<option value="16图馆班">16级图管班</option>
+</select>
+</label>
+<label>
+<p>笔试科目(可多选)</p>
+<input name="subjects" type="checkbox" value="html" />html
+<input name="subjects" type="checkbox" value="C语言" />C语言</label><br><br>
+<label><input id="sub" type="button" name="sub" value="提交"></label>
+</form>
+</div>
+<script type="text/javascript">
+	// var osub=document.getElementById('sub');
+	// osub.onclick=function(){
+	// 	alert('报名成功！');
+	// }
+	window.onload=function(){
+		var oNum = document.getElementById('onum');
+		var oNumwarning=document.getElementById('onumwarning');
+		oNum.onblur=function(){
+			ajax('get','/db_xgjd/memberController/isExit.do','id='+oNum.value,function(data){
+				var d=JSON.parse(data);
+				if(d.FLAG=='1'){
+					oNumwarning.style.display='block';	
+				}else{
+					oNumwarning.style.display='none';
+				}
+			});
+		}//请求用户是否已经报名
+		var osub=document.getElementById('sub');
+		// osub.onclick=function(){
+		// 	ajax('post','/db_xgjd/memberController/isInsert.do','',function(data){
+		// 		var d=JSON.parse(data);
+		// 		if(d.FLAG=='1'){
+		// 			alert('添加失败请重试');
+		// 		}else{
+		// 			alert('添加成功，基地欢迎你');
+		// 		}
+		// 	});
+		// }
+		osub.onclick=function() {
+			$('body').css({
+					display: 'none'
+					
+				});
+			$.ajax({
+				url: '/db_xgjd/memberController/isInsert.do',
+				type: 'POST',
+				data: $('#form1').serialize(),
+			})
+			.done(function() {
+				alert('报名成功');
+				console.log("success");
+			})
+			.fail(function() {
+				alert('报名失败，请重试');
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+	};
+	}
+
+</script>
+</body>
+</html>

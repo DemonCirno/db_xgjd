@@ -1,5 +1,7 @@
 package db_xgjd.dao;
 
+import java.util.List;
+
 import db_xgjd.model.Member;
 
 public interface MemberMapper {
@@ -10,6 +12,8 @@ public interface MemberMapper {
     int insertSelective(Member record);
 
     Member selectByPrimaryKey(Integer memberid);
+    
+    List<Member> countAll();
 
     int updateByPrimaryKeySelective(Member record);
 
